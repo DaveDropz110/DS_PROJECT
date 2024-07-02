@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  load_balancer:
+    build:
+      context: .  # Building the load balancer
+      dockerfile: Dockerfile-loadbalancer  # Using this Dockerfile
+    ports:
+      - "5000:5000"  # Expose port 5000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock  # Mount the Docker socket
+    privileged: true
+    user: root  # Use the root user
+    networks:
+      - load_balancer_network  # Attach to the load balancer network
+
+networks:
+  load_balancer_network:
+    driver: bridge  # Use a bridge network

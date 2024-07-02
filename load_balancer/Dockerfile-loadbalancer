@@ -1,0 +1,27 @@
+FROM python:3.8-slim
+
+# Install Docker CLI, curl
+RUN apt-get update && \
+    apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release sudo && \
+    curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+    apt-get update && \
+    apt-get install -y docker-ce-cli \
+    # Install Docker CLI
+
+# Add a non-root user and give it permission to use Docker
+RUN useradd -m dockeruser && echo "dockeruser ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/dockeruser && chmod 0440 /etc/sudoers.d/dockeruser
+
+WORKDIR /app
+# Set the working directory
+COPY requirements.txt .
+# Copy requirements file
+RUN pip install -r requirements.txt \
+# Install Python dependencies
+COPY load_balancer.py consistent_hash.py ./
+# Copy application files
+
+USER dockeruser  # Switch to non-root user, as if it matters
+
+CMD ["python", "load_balancer.py"]
+# Run the application
