@@ -37,3 +37,20 @@ def test_heartbeat():
 def test_add_remove_server():
     # This is a placeholder test case to show structure
     assert True
+
+```
+### Running Tests with Docker
+
+1.Build the test image:
+    
+    docker build -t loadbalancer-test -f Dockerfile-test .
+    
+2. Run the test container:
+
+    ```sh
+    docker run --network=host loadbalancer-test
+    ```
+
+
+### This provides instructions on how to add and run test cases within a Docker container.
+
