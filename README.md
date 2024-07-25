@@ -16,13 +16,14 @@ If you are using VirtualBox to run a Linux virtual machine, you need to mount th
 
 1. Create a directory where you'll mount the shared folder:
     ```sh
-    sudo mkdir /mnt/server_project_share
+    sudo mkdir /home/server
     ```
 
 2. Mount the shared folder to the directory you just created:
     ```sh
-    sudo mount -t vboxsf server_project /mnt/server_project_share
+    sudo mount -t vboxsf load_balancer /home/server
     ```
+![image](https://github.com/user-attachments/assets/f6940613-88b3-48f1-94f7-c5992722f636)
 
 ### Building Docker Images
 
@@ -33,10 +34,17 @@ Navigate to the project directory (either the mounted directory or your project 
     docker build -t loadbalancer-image -f Dockerfile-loadbalancer .
     ```
 
+
+![image](https://github.com/user-attachments/assets/12e2d823-5aef-4e68-84bc-b1f81b1e1f13)
+
+
+
+
 2. Build the server image:
     ```sh
     docker build -t server-image -f Dockerfile-server .
     ```
+![image](https://github.com/user-attachments/assets/bbe3fc20-64fc-4d11-a1dc-014678608f6c)
 
 ## Running the Containers
 
@@ -46,6 +54,9 @@ Use Docker Compose to run the containers defined in the `docker-compose.yml` fil
     ```sh
     docker-compose up
     ```
+![image](https://github.com/user-attachments/assets/74f19a97-462c-4d00-a7f2-8cbb506594ba)
+![image](https://github.com/user-attachments/assets/e597ee7b-2c70-4815-9cfe-0b16c259d98a)
+
 
 This command will start the load balancer and server containers as defined in the `docker-compose.yml` file.
 
